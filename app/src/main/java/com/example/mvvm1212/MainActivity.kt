@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.currentWeather.addOnPropertyChangedCallback(object :
             Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                Toast.makeText(this@MainActivity, "날씨 확인", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, resources.getText(R.string.weather), Toast.LENGTH_SHORT).show()
             }
 
         })

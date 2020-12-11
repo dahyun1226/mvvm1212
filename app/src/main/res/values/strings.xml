@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">mvvm1212</string>
+    <string name="weather">날씨 확인</string>
 </resources>
