@@ -15,21 +15,15 @@ class MainViewModel(
     private val compositeDisposable: CompositeDisposable
 ) {
 
-    //val currentWeather = ObservableField("Check Weather")
-
-    private val _currentWeather = MutableLiveData<String>("current")
-    val currentWeather: LiveData<String> = _currentWeather
 
     fun getWeather() {
         repository.getWeather(object : BaseResponse<WeatherData> {
             override fun onSuccess(data: WeatherData) {
-                //currentWeather.set(data.weather[0].description)
-                _currentWeather.value = data.weather[0].description
+
             }
 
             override fun onError(throwable: Throwable) {
-                //currentWeather.set(throwable.toString())
-                _currentWeather.value = throwable.toString()
+
             }
 
         }).also { compositeDisposable.add(it) }
