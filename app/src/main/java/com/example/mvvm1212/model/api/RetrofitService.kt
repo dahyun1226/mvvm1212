@@ -1,17 +1,17 @@
 package com.example.mvvmpr.model.api
 
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
+import com.example.mvvmpr.model.data.Weather
+import com.example.mvvmpr.model.data.WeatherData
+import retrofit2.http.GET
+import io.reactivex.Single
+import retrofit2.http.Path
+import retrofit2.http.Query
 
-object RetrofitService {
-    fun getService(): RetrofitServiceInterface =
-        retrofit.create(RetrofitServiceInterface::class.java)
+interface RetrofitService {
 
-    private val retrofit =
-        Retrofit.Builder()
-            .baseUrl("https://api.openweathermap.org/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .build()
+    @GET("/data/2.5/weather")
+    fun requestWeather(
+        @Query("q") cityName: String,
+        @Query("appid") apiKey: String
+    ): Single<WeatherData>
 }

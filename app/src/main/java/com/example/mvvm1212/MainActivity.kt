@@ -6,10 +6,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.Observable
+import androidx.lifecycle.Observer
 import com.example.mvvm1212.databinding.ActivityMainBinding
 import com.example.mvvmpr.Util.DI.WeatherRepositoryInjector
 import com.example.mvvmpr.model.repository.WeatherRepositoryInterface
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,16 +25,29 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val dataBinding: ActivityMainBinding =
+        val binding: ActivityMainBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_main)
-        dataBinding.viewModel = mainViewModel
+        binding.viewModel = mainViewModel
+        binding.lifecycleOwner = this
+//        mainViewModel.currentWeather.addOnPropertyChangedCallback(object :
+//            Observable.OnPropertyChangedCallback() {
+//            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+//                Toast.makeText(
+//                    this@MainActivity,
+//                    resources.getText(R.string.weather),
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            }
+//
+//        })
 
-        mainViewModel.currentWeather.addOnPropertyChangedCallback(object :
-            Observable.OnPropertyChangedCallback() {
-            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                Toast.makeText(this@MainActivity, resources.getText(R.string.weather), Toast.LENGTH_SHORT).show()
-            }
 
+        mainViewModel.currentWeather.observe(this, Observer {
+            Toast.makeText(
+                this@MainActivity,
+                resources.getText(R.string.weather),
+                Toast.LENGTH_SHORT
+            ).show()
         })
     }
 
